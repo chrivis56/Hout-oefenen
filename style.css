@@ -71,8 +71,8 @@ h1, h2 {
 }
 
 .grid img {
-  width: 100%;
-  height: 160px; /* iets rechthoekiger dan vierkant */
+  width: 160%;
+  height: 100px; /* iets rechthoekiger dan vierkant */
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease, border 0.3s ease;
