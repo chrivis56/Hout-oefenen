@@ -128,6 +128,7 @@ let streak = 0;
 let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
+let wrongAttempts = 0;
 
 // ================= HELPERS =================
 function shuffle(array) {
@@ -154,6 +155,8 @@ function priceLabel(level) {
 function nextQuestion() {
   document.getElementById("feedback").textContent = "";
   document.getElementById("wood-info").innerHTML = "";
+  wrongAttempts = 0;
+
 
   currentWood = getNextWood();
   document.getElementById("wood-name").textContent = currentWood.name;
@@ -188,11 +191,30 @@ function nextQuestion() {
           <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}
         `;
       } else {
-        img.classList.add("wrong");
-        document.getElementById("feedback").textContent = "❌ Fout";
-        streak = 0;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
-      }
+  img.classList.add("wrong");
+  wrongAttempts++;
+
+  document.getElementById("feedback").textContent = "❌ Fout";
+
+  if (wrongAttempts === 1) {
+    document.getElementById("wood-info").innerHTML =
+      `<strong>Hint – Toepassingen:</strong> ${currentWood.uses.join(", ")}`;
+  }
+
+  if (wrongAttempts === 2) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
+  }
+
+  if (wrongAttempts === 3) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
+  }
+
+  streak = 0;
+  document.getElementById("streak").textContent = `Streak: ${streak}`;
+}
+
     };
 
     grid.appendChild(img);
