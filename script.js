@@ -25,6 +25,9 @@ let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
 let answeredCorrectly = false;
+let correctThisCycle = 0;
+const totalWoods = woods.length;
+
 
 // 🔹 shuffle ZONDER originele array te slopen
 function shuffle(array) {
@@ -40,9 +43,11 @@ function shuffle(array) {
 function getNextWood() {
   if (woodDeck.length === 0) {
     woodDeck = shuffle(woods);
+    correctThisCycle = 0; // nieuwe cyclus
   }
   return woodDeck.pop();
 }
+
 
 function nextQuestion() {
   answeredCorrectly = false;
@@ -69,13 +74,34 @@ function nextQuestion() {
       if (img.classList.contains("correct") || img.classList.contains("wrong")) return;
 
       if (wood === currentWood) {
-        img.classList.add("correct");
-        document.getElementById("feedback").textContent = "✔️ Goed!";
-        answeredCorrectly = true;
+  img.classList.add("correct");
+  document.getElementById("feedback").textContent = "✔️ Goed!";
+  answeredCorrectly = true;
 
-        streak++;
-        if (streak > highscore) highscore = streak;
+  streak++;
+  correctThisCycle++;
+
+  if (streak > highscore) highscore = streak;
+
+  // 🎉 check of alles goed geraden is
+  if (correctThisCycle === totalWoods) {
+    setTimeout(() => {
+      const verder = confirm(
+        "🎉 Gefeliciteerd!\nJe hebt alle houtsoorten goed geraden.\n\nWil je verder spelen om je highscore te verbeteren?"
+      );
+
+      if (verder) {
+        woodDeck = [];
+        nextQuestion();
       } else {
+        document.getElementById("feedback").textContent =
+          "👍 Bedankt voor het spelen!";
+        document.getElementById("grid").innerHTML = "";
+      }
+    }, 300);
+  }
+}
+ else {
         img.classList.add("wrong");
         document.getElementById("feedback").textContent = "❌ Fout";
         streak = 0;
