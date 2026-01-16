@@ -1,3 +1,5 @@
+console.log("HOUT QUIZ – VOLLEDIGE STABIELE VERSIE");
+
 // ================= DATA =================
 const woods = [
   { name: "Beuken", image: "images/beuken/1.jpg", properties: ["Fijnporig", "Hard loofhout", "Licht roze/crème"], uses: ["Meubels", "Stoelen", "Interieurbouw"], price: 2 },
@@ -25,7 +27,7 @@ let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
 let wrongAttempts = 0;
-let gameMode = "name";
+let gameMode = "name"; // "name" of "uses"
 
 // ================= HELPERS =================
 function shuffle(array) {
@@ -48,7 +50,7 @@ function priceLabel(level) {
   return "€".repeat(level) + "–".repeat(4 - level);
 }
 
-// ================= GAMEMODE =================
+// ================= GAMEMODE SWITCH =================
 function setMode(mode) {
   gameMode = mode;
   woodDeck = [];
@@ -65,16 +67,19 @@ function nextQuestion() {
 
   currentWood = getNextWood();
 
+  // Vraagtekst
   if (gameMode === "name") {
     document.getElementById("wood-name").textContent = currentWood.name;
     document.getElementById("wood-info").innerHTML = "";
-  } else {
+  } else if (gameMode === "uses") {
     document.getElementById("wood-name").textContent =
       "Toepassingen: " + currentWood.uses.join(", ");
+    // Eigenschappen direct zichtbaar
     document.getElementById("wood-info").innerHTML =
       `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
   }
 
+  // opties
   const options = shuffle([
     currentWood,
     ...shuffle(woods.filter(w => w !== currentWood)).slice(0, 11)
@@ -84,9 +89,6 @@ function nextQuestion() {
   grid.innerHTML = "";
 
   options.forEach(wood => {
-    const container = document.createElement("div");
-    container.classList.add("grid-item");
-
     const img = document.createElement("img");
     img.src = wood.image;
 
@@ -102,6 +104,7 @@ function nextQuestion() {
         document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
 
         if (gameMode === "uses") {
+          // Toon naam + eigenschappen + toepassingen + prijsklasse
           document.getElementById("wood-info").innerHTML =
             `<strong>Naam:</strong> ${currentWood.name}<br>
              <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
@@ -113,13 +116,15 @@ function nextQuestion() {
              <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
              <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
         }
+
       } else {
         img.classList.add("wrong");
         wrongAttempts++;
+        document.getElementById("feedback").textContent = "❌ Fout";
         streak = 0;
         document.getElementById("streak").textContent = `Streak: ${streak}`;
-        document.getElementById("feedback").textContent = "❌ Fout";
 
+        // Hint voor uses-mode = naam bij eerste fout
         if (gameMode === "uses" && wrongAttempts === 1) {
           document.getElementById("wood-info").innerHTML +=
             `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
@@ -127,8 +132,7 @@ function nextQuestion() {
       }
     };
 
-    container.appendChild(img);
-    grid.appendChild(container);
+    grid.appendChild(img);
   });
 }
 
