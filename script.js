@@ -90,32 +90,37 @@ function nextQuestion() {
     img.onclick = () => {
       if (img.classList.contains("correct") || img.classList.contains("wrong")) return;
 
-      if (wood === currentWood) {
-        img.classList.add("correct");
-        document.getElementById("feedback").textContent = "✔️ Goed!";
-        streak++;
-        if (streak > highscore) highscore = streak;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
-        document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+ if (wood === currentWood) {
+  img.classList.add("correct");
+  streak++;
+  if (streak > highscore) highscore = streak;
 
-        if (gameMode === "uses") {
-          document.getElementById("wood-info").innerHTML =
-            `<strong>Naam:</strong> ${currentWood.name}<br>
-             <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
-             <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
-             <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
-        } else {
-          document.getElementById("wood-info").innerHTML =
-            `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
-             <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
-             <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
-        }
-      } else {
-        img.classList.add("wrong");
-        wrongAttempts++;
-        streak = 0;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
-        document.getElementById("feedback").textContent = "❌ Fout";
+  document.getElementById("streak").textContent = `Streak: ${streak}`;
+  document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+
+  // update streak-balk
+  const bar = document.getElementById("streak-bar");
+  const percent = Math.min((streak / 17) * 100, 100);
+  bar.style.width = percent + "%";
+
+  // balk vol?
+  if (streak >= 17) {
+    setTimeout(() => {
+      alert("🎉 Gefeliciteerd! Je hebt 17 achter elkaar goed!");
+    }, 300);
+  }
+} else {
+  img.classList.add("wrong");
+  wrongAttempts++;
+  streak = 0;
+  document.getElementById("streak").textContent = `Streak: ${streak}`;
+  document.getElementById("feedback").textContent = "❌ Fout";
+
+  // reset balk
+  const bar = document.getElementById("streak-bar");
+  bar.style.width = "0%";
+}
+
 
         if (gameMode === "uses" && wrongAttempts === 1) {
           document.getElementById("wood-info").innerHTML +=
