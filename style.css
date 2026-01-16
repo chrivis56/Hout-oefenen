@@ -62,34 +62,34 @@ h1, h2 {
   font-size: 16px;
 }
 
+/* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* min 180px breed */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   margin-bottom: 15px;
 }
 
-/* afbeelding vult container */
-.grid-item img {
+.grid img {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* snijdt bij waar nodig, houdt aspect ratio intact */
+  height: 120px; /* vaste hoogte voor alle afbeeldingen */
+  border-radius: 10px;
+  cursor: pointer;
   transition: transform 0.3s ease, border 0.3s ease;
-  display: block;
+  object-fit: cover; /* vult het vakje netjes */
 }
 
-.grid-item img:hover {
+.grid img:hover {
   transform: scale(1.05);
 }
 
-.grid-item img.correct {
+.grid img.correct {
   border: 4px solid green;
 }
 
-.grid-item img.wrong {
+.grid img.wrong {
   border: 4px solid red;
 }
-
 
 /* Volgende knop */
 #next-btn {
