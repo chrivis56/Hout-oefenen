@@ -1,4 +1,4 @@
-console.log("NIEUWE DECK-VERSIE ACTIEF");
+console.log("NIEUWE DECK-VERSIE ACTIEF1");
 const woods = [
   { name: "Beuken", image: "images/beuken/1.jpg" },
   { name: "Esdoorn", image: "images/esdoorn/1.jpg" },
