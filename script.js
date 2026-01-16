@@ -100,6 +100,10 @@ function nextQuestion() {
       }
     }, 300);
   }
+// automatisch naar volgende vraag na 1 seconde
+setTimeout(() => {
+  nextQuestion();
+}, 1000);
 }
  else {
         img.classList.add("wrong");
