@@ -1,4 +1,4 @@
-console.log("HOUT QUIZ – STABIELE VERSIE");
+console.log("HOUT QUIZ – VOLLEDIGE STABIELE VERSIE");
 
 // ================= DATA =================
 const woods = [
@@ -129,10 +129,7 @@ let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
 let wrongAttempts = 0;
-let gameMode = "name"; 
-// "name" = raad hout op naam
-// "uses" = raad hout op toepassingen
-
+let gameMode = "name"; // "name" of "uses"
 
 // ================= HELPERS =================
 function shuffle(array) {
@@ -154,35 +151,41 @@ function getNextWood() {
 function priceLabel(level) {
   return "€".repeat(level) + "–".repeat(4 - level);
 }
+
+// ================= GAMEMODE SWITCH =================
 function setMode(mode) {
   gameMode = mode;
   woodDeck = [];
   streak = 0;
   document.getElementById("streak").textContent = "Streak: 0";
+  document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
   nextQuestion();
 }
 
 // ================= QUIZ =================
 function nextQuestion() {
-  document.getElementById("feedback").textContent = "";
-  document.getElementById("wood-info").innerHTML = "";
   wrongAttempts = 0;
+  document.getElementById("feedback").textContent = "";
 
+  // Clear info (bij name-mode)
+  if (gameMode === "name") {
+    document.getElementById("wood-info").innerHTML = "";
+  }
 
   currentWood = getNextWood();
- if (gameMode === "name") {
-  document.getElementById("wood-name").textContent = currentWood.name;
-}
 
-if (gameMode === "uses") {
-  document.getElementById("wood-name").textContent =
-    "Toepassingen: " + currentWood.uses.join(", ");
+  // Vraagtekst
+  if (gameMode === "name") {
+    document.getElementById("wood-name").textContent = currentWood.name;
+  } else if (gameMode === "uses") {
+    document.getElementById("wood-name").textContent =
+      "Toepassingen: " + currentWood.uses.join(", ");
+    // direct eigenschappen tonen
+    document.getElementById("wood-info").innerHTML =
+      `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
+  }
 
-  document.getElementById("wood-info").innerHTML =
-    `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
-}
-
-
+  // opties
   const options = shuffle([
     currentWood,
     ...shuffle(woods.filter(w => w !== currentWood)).slice(0, 11)
@@ -203,61 +206,27 @@ if (gameMode === "uses") {
         document.getElementById("feedback").textContent = "✔️ Goed!";
         streak++;
         if (streak > highscore) highscore = streak;
-
         document.getElementById("streak").textContent = `Streak: ${streak}`;
         document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
 
-        document.getElementById("wood-info").innerHTML = `
-          <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
-          <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
-          <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}
-        `;
+        // full info tonen bij goed
+        document.getElementById("wood-info").innerHTML =
+          `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
+           <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
+           <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
       } else {
-  img.classList.add("wrong");
-  wrongAttempts++;
+        img.classList.add("wrong");
+        wrongAttempts++;
+        document.getElementById("feedback").textContent = "❌ Fout";
+        streak = 0;
+        document.getElementById("streak").textContent = `Streak: ${streak}`;
 
-  document.getElementById("feedback").textContent = "❌ Fout";
-
-  if (gameMode === "name") {
-  if (wrongAttempts === 1) {
-    document.getElementById("wood-info").innerHTML =
-      `<strong>Hint – Toepassingen:</strong> ${currentWood.uses.join(", ")}`;
-  }
-  if (wrongAttempts === 2) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
-  }
-  if (wrongAttempts === 3) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
-  }
-}
-
-if (gameMode === "uses") {
-  if (wrongAttempts === 1) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
-  }
-}
-
-  }
-}
-
-
-  if (wrongAttempts === 2) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
-  }
-
-  if (wrongAttempts === 3) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
-  }
-
-  streak = 0;
-  document.getElementById("streak").textContent = `Streak: ${streak}`;
-}
-
+        // hint voor uses-mode = naam bij eerste fout
+        if (gameMode === "uses" && wrongAttempts === 1) {
+          document.getElementById("wood-info").innerHTML +=
+            `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
+        }
+      }
     };
 
     grid.appendChild(img);
