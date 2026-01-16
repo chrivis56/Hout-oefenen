@@ -50,13 +50,37 @@ function priceLabel(level) {
   return "€".repeat(level) + "–".repeat(4 - level);
 }
 
+// ================= STREAK-BALK =================
+function updateStreakBar() {
+  const bar = document.getElementById("streak-bar");
+  const text = document.getElementById("streak-text");
+  const maxStreak = 10; // volle balk bij 10
+  let percent = Math.min((streak / maxStreak) * 100, 100);
+  bar.style.width = percent + "%";
+
+  if (percent === 100) {
+    bar.style.backgroundColor = "#FFD700"; // goud
+    text.textContent = "🎉 Gefeliciteerd! Max streak!";
+  } else {
+    bar.style.backgroundColor = "#4caf50";
+    text.textContent = `Streak: ${streak}`;
+  }
+
+  // animatie bij fout
+  if (streak === 0) {
+    bar.style.backgroundColor = "#f44336";
+    setTimeout(() => {
+      bar.style.backgroundColor = "#4caf50";
+    }, 200);
+  }
+}
+
 // ================= GAMEMODE SWITCH =================
 function setMode(mode) {
   gameMode = mode;
   woodDeck = [];
   streak = 0;
-  document.getElementById("streak").textContent = "Streak: 0";
-  document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+  updateStreakBar();
   nextQuestion();
 }
 
@@ -74,7 +98,6 @@ function nextQuestion() {
   } else if (gameMode === "uses") {
     document.getElementById("wood-name").textContent =
       "Toepassingen: " + currentWood.uses.join(", ");
-    // Eigenschappen direct zichtbaar
     document.getElementById("wood-info").innerHTML =
       `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
   }
@@ -100,11 +123,9 @@ function nextQuestion() {
         document.getElementById("feedback").textContent = "✔️ Goed!";
         streak++;
         if (streak > highscore) highscore = streak;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
-        document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+        updateStreakBar();
 
         if (gameMode === "uses") {
-          // Toon naam + eigenschappen + toepassingen + prijsklasse
           document.getElementById("wood-info").innerHTML =
             `<strong>Naam:</strong> ${currentWood.name}<br>
              <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
@@ -120,11 +141,10 @@ function nextQuestion() {
       } else {
         img.classList.add("wrong");
         wrongAttempts++;
-        document.getElementById("feedback").textContent = "❌ Fout";
         streak = 0;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
+        updateStreakBar();
+        document.getElementById("feedback").textContent = "❌ Fout";
 
-        // Hint voor uses-mode = naam bij eerste fout
         if (gameMode === "uses" && wrongAttempts === 1) {
           document.getElementById("wood-info").innerHTML +=
             `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
