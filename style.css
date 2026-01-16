@@ -62,36 +62,7 @@ h1, h2 {
   font-size: 16px;
 }
 
-/* Grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* breed genoeg voor horizontale foto's */
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.grid img {
-  width: 100%;
-  height: auto; /* hoogte automatisch, zodat verhouding behouden blijft */
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease, border 0.3s ease;
-  object-fit: cover; /* vult het vakje netjes en horizontaal rechthoekig */
-  display: block;
-}
-
-.grid img:hover {
-  transform: scale(1.05);
-}
-
-.grid img.correct {
-  border: 4px solid green;
-}
-
-.grid img.wrong {
-  border: 4px solid red;
-}
-
+/* Streak balk */
 .streak-bar-container {
   width: 100%;
   height: 20px;
@@ -107,6 +78,36 @@ h1, h2 {
   background-color: #4CAF50;
   transition: width 0.3s ease;
   border-radius: 10px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.grid img {
+  width: 100%;
+  height: auto; /* behoud horizontale rechthoek */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, border 0.3s ease;
+  object-fit: cover;
+  display: block;
+}
+
+.grid img:hover {
+  transform: scale(1.05);
+}
+
+.grid img.correct {
+  border: 4px solid green;
+}
+
+.grid img.wrong {
+  border: 4px solid red;
 }
 
 /* Volgende knop */
