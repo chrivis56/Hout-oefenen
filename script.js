@@ -177,6 +177,9 @@ function nextQuestion() {
 if (gameMode === "uses") {
   document.getElementById("wood-name").textContent =
     "Toepassingen: " + currentWood.uses.join(", ");
+
+  document.getElementById("wood-info").innerHTML =
+    `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
 }
 
 
@@ -231,17 +234,12 @@ if (gameMode === "uses") {
 }
 
 if (gameMode === "uses") {
-  if (wrongAttempts === 2) {
-    document.getElementById("wood-info").innerHTML =
-      `<strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
-  }
-  if (wrongAttempts === 3) {
-    document.getElementById("wood-info").innerHTML +=
-      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
-  }
   if (wrongAttempts === 1) {
     document.getElementById("wood-info").innerHTML +=
       `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
+  }
+}
+
   }
 }
 
