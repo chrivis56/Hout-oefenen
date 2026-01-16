@@ -154,6 +154,13 @@ function getNextWood() {
 function priceLabel(level) {
   return "€".repeat(level) + "–".repeat(4 - level);
 }
+function setMode(mode) {
+  gameMode = mode;
+  woodDeck = [];
+  streak = 0;
+  document.getElementById("streak").textContent = "Streak: 0";
+  nextQuestion();
+}
 
 // ================= QUIZ =================
 function nextQuestion() {
@@ -163,7 +170,15 @@ function nextQuestion() {
 
 
   currentWood = getNextWood();
+ if (gameMode === "name") {
   document.getElementById("wood-name").textContent = currentWood.name;
+}
+
+if (gameMode === "uses") {
+  document.getElementById("wood-name").textContent =
+    "Toepassingen: " + currentWood.uses.join(", ");
+}
+
 
   const options = shuffle([
     currentWood,
@@ -200,10 +215,36 @@ function nextQuestion() {
 
   document.getElementById("feedback").textContent = "❌ Fout";
 
+  if (gameMode === "name") {
   if (wrongAttempts === 1) {
     document.getElementById("wood-info").innerHTML =
       `<strong>Hint – Toepassingen:</strong> ${currentWood.uses.join(", ")}`;
   }
+  if (wrongAttempts === 2) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
+  }
+  if (wrongAttempts === 3) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
+  }
+}
+
+if (gameMode === "uses") {
+  if (wrongAttempts === 1) {
+    document.getElementById("wood-info").innerHTML =
+      `<strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
+  }
+  if (wrongAttempts === 2) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
+  }
+  if (wrongAttempts === 3) {
+    document.getElementById("wood-info").innerHTML +=
+      `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
+  }
+}
+
 
   if (wrongAttempts === 2) {
     document.getElementById("wood-info").innerHTML +=
