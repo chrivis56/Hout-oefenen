@@ -95,17 +95,28 @@ function nextQuestion() {
       if (img.classList.contains("correct") || img.classList.contains("wrong")) return;
 
       if (wood === currentWood) {
-        img.classList.add("correct");
-        document.getElementById("feedback").textContent = "✔️ Goed!";
-        streak++;
-        if (streak > highscore) highscore = streak;
-        document.getElementById("streak").textContent = `Streak: ${streak}`;
-        document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+    img.classList.add("correct");
+    document.getElementById("feedback").textContent = "✔️ Goed!";
+    streak++;
+    if (streak > highscore) highscore = streak;
+    document.getElementById("streak").textContent = `Streak: ${streak}`;
+    document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
 
+    if (gameMode === "uses") {
+        // Toon volledige info + naam
+        document.getElementById("wood-info").innerHTML =
+          `<strong>Naam:</strong> ${currentWood.name}<br>
+           <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
+           <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
+           <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
+    } else {
+        // name-gamemode blijft hetzelfde
         document.getElementById("wood-info").innerHTML =
           `<strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
            <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
            <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
+    }
+}
 
       } else {
         img.classList.add("wrong");
