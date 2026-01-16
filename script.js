@@ -231,15 +231,15 @@ if (gameMode === "uses") {
 }
 
 if (gameMode === "uses") {
-  if (wrongAttempts === 1) {
+  if (wrongAttempts === 2) {
     document.getElementById("wood-info").innerHTML =
       `<strong>Hint – Eigenschappen:</strong> ${currentWood.properties.join(" • ")}`;
   }
-  if (wrongAttempts === 2) {
+  if (wrongAttempts === 3) {
     document.getElementById("wood-info").innerHTML +=
       `<br><strong>Hint – Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
   }
-  if (wrongAttempts === 3) {
+  if (wrongAttempts === 1) {
     document.getElementById("wood-info").innerHTML +=
       `<br><strong>Hint – Naam:</strong> ${currentWood.name}`;
   }
