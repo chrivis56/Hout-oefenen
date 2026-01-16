@@ -1,4 +1,4 @@
-const woods = [
+let woodDeck = [
   { name: "Beuken", image: "images/beuken/1.jpg" },
   { name: "Esdoorn", image: "images/esdoorn/1.jpg" },
   { name: "Essen", image: "images/essen/1.jpg" },
@@ -24,11 +24,19 @@ let highscore = 0;
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
+function getNextWood() {
+  // als deck leeg is → nieuwe cyclus
+  if (woodDeck.length === 0) {
+    woodDeck = [...woods];   // kopie
+    shuffle(woodDeck);       // random volgorde
+  }
 
+  return woodDeck.pop();     // pak er 1
+}
 function nextQuestion() {
   document.getElementById("feedback").textContent = "";
 
-  const wood = woods[Math.floor(Math.random() * woods.length)];
+  const wood = getNextWood();
   document.getElementById("wood-name").textContent = wood.name;
 
   // 1 juiste afbeelding + 11 fout
