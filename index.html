@@ -2,28 +2,43 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Houtsoorten oefenen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Houtsoorten Quiz</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <h1>Houtsoorten Quiz</h1>
 
- <h2 id="streak">Streak: 0</h2>
-<h2 id="highscore">Highscore: 0</h2>
+    <!-- Score en highscore -->
+    <div class="score-container">
+      <h2 id="streak">Streak: 0</h2>
+      <h2 id="highscore">Highscore: 0</h2>
+    </div>
 
-<div id="modes">
-  <button onclick="setMode('name')">Naam → Foto</button>
-  <button onclick="setMode('uses')">Toepassingen → Foto</button>
-</div>
-  
-<h1 id="wood-name"></h1>
+    <!-- Gamemode buttons -->
+    <div id="modes">
+      <button onclick="setMode('name')">Naam → Foto</button>
+      <button onclick="setMode('uses')">Toepassingen → Foto</button>
+    </div>
 
-<p id="feedback"></p>
-<p id="wood-info"></p>
+    <!-- Houtvraag -->
+    <h1 id="wood-name"></h1>
+    <p id="feedback"></p>
+    <p id="wood-info"></p>
 
-<div id="grid" class="grid"></div>
+    <!-- Voortgangsbalk -->
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+    <p id="progress-text"></p>
 
-<button id="next-btn" onclick="nextQuestion()">Volgende</button>
+    <!-- Foto opties -->
+    <div id="grid" class="grid"></div>
 
+    <!-- Volgende knop -->
+    <button id="next-btn" onclick="nextQuestion()">Volgende</button>
+  </div>
 
   <script src="script.js"></script>
 </body>
