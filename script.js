@@ -1,4 +1,4 @@
-console.log("HOUT QUIZ – VOLLEDIGE STABIELE VERSIE MET VOORTGANGSBALK");
+console.log("HOUT QUIZ – VOLLEDIGE STABIELE VERSIE");
 
 // ================= DATA =================
 const woods = [
@@ -28,8 +28,6 @@ let woodDeck = [];
 let currentWood = null;
 let wrongAttempts = 0;
 let gameMode = "name"; // "name" of "uses"
-let totalDeckSize = woods.length;
-let currentProgress = 0;
 
 // ================= HELPERS =================
 function shuffle(array) {
@@ -44,7 +42,6 @@ function shuffle(array) {
 function getNextWood() {
   if (woodDeck.length === 0) {
     woodDeck = shuffle(woods);
-    currentProgress = 0; // reset progress bij nieuwe cyclus
   }
   return woodDeck.pop();
 }
@@ -53,26 +50,13 @@ function priceLabel(level) {
   return "€".repeat(level) + "–".repeat(4 - level);
 }
 
-// ================= PROGRESS =================
-function updateProgress(correct=false) {
-  const bar = document.getElementById("progress-bar");
-  const text = document.getElementById("progress-text");
-  // alleen vooruit bij nieuwe vraag
-  const percent = (currentProgress / totalDeckSize) * 100;
-  bar.style.width = percent + "%";
-  bar.style.backgroundColor = correct ? "#4caf50" : "#f44336"; // groen/fout rood
-  text.textContent = `${currentProgress} / ${totalDeckSize} houtsoorten`;
-}
-
 // ================= GAMEMODE SWITCH =================
 function setMode(mode) {
   gameMode = mode;
   woodDeck = [];
   streak = 0;
-  currentProgress = 0;
   document.getElementById("streak").textContent = "Streak: 0";
   document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
-  updateProgress();
   nextQuestion();
 }
 
@@ -82,8 +66,6 @@ function nextQuestion() {
   document.getElementById("feedback").textContent = "";
 
   currentWood = getNextWood();
-  currentProgress++;
-  updateProgress();
 
   // Vraagtekst
   if (gameMode === "name") {
@@ -125,15 +107,12 @@ function nextQuestion() {
            <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
            <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}`;
 
-        updateProgress(true); // groen
       } else {
         img.classList.add("wrong");
         wrongAttempts++;
         document.getElementById("feedback").textContent = "❌ Fout";
         streak = 0;
         document.getElementById("streak").textContent = `Streak: ${streak}`;
-
-        updateProgress(false); // rood
 
         // Hint voor uses-mode = naam bij eerste fout
         if (gameMode === "uses" && wrongAttempts === 1) {
@@ -148,5 +127,4 @@ function nextQuestion() {
 }
 
 // ================= START =================
-updateProgress();
 nextQuestion();
