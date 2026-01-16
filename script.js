@@ -1,4 +1,4 @@
-let woodDeck = [
+const woods = [
   { name: "Beuken", image: "images/beuken/1.jpg" },
   { name: "Esdoorn", image: "images/esdoorn/1.jpg" },
   { name: "Essen", image: "images/essen/1.jpg" },
@@ -18,63 +18,68 @@ let woodDeck = [
   { name: "Zebrano", image: "images/zebrano/1.jpg" }
 ];
 
+// 🔹 quiz state
 let streak = 0;
 let highscore = 0;
+let woodDeck = [];
+let currentWood = null;
+let answeredCorrectly = false;
 
+// 🔹 shuffle ZONDER originele array te slopen
 function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-function getNextWood() {
-  // als deck leeg is → nieuwe cyclus
-  if (woodDeck.length === 0) {
-    woodDeck = [...woods];   // kopie
-    shuffle(woodDeck);       // random volgorde
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-
-  return woodDeck.pop();     // pak er 1
+  return copy;
 }
+
+// 🔹 volgende houtsoort (1x per cyclus)
+function getNextWood() {
+  if (woodDeck.length === 0) {
+    woodDeck = shuffle(woods);
+  }
+  return woodDeck.pop();
+}
+
 function nextQuestion() {
+  answeredCorrectly = false;
   document.getElementById("feedback").textContent = "";
 
-  const wood = getNextWood();
-  document.getElementById("wood-name").textContent = wood.name;
+  currentWood = getNextWood();
+  document.getElementById("wood-name").textContent = currentWood.name;
 
-  // 1 juiste afbeelding + 11 fout
-  let images = [wood.image];
+  // juiste + 11 foute
+  let options = [currentWood];
 
-  const otherWoods = woods.filter(w => w !== wood);
-  shuffle(otherWoods);
-
-  for (let i = 0; i < 11 && i < otherWoods.length; i++) {
-    images.push(otherWoods[i].image);
-  }
-
-  images = shuffle(images);
+  const others = woods.filter(w => w !== currentWood);
+  const shuffledOthers = shuffle(others).slice(0, 11);
+  options = shuffle([...options, ...shuffledOthers]);
 
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
 
-  images.forEach(src => {
+  options.forEach(wood => {
     const img = document.createElement("img");
-    img.src = src;
+    img.src = wood.image;
 
     img.onclick = () => {
-      if (src === wood.image) {
-        // juiste keuze
+      if (img.classList.contains("correct") || img.classList.contains("wrong")) return;
+
+      if (wood === currentWood) {
         img.classList.add("correct");
         document.getElementById("feedback").textContent = "✔️ Goed!";
+        answeredCorrectly = true;
+
         streak++;
-        if (streak > highscore) {
-          highscore = streak;
-        }
+        if (streak > highscore) highscore = streak;
       } else {
-        // foute keuze
         img.classList.add("wrong");
         document.getElementById("feedback").textContent = "❌ Fout";
-        streak = 0; // reset streak
+        streak = 0;
       }
 
-      // update display
       document.getElementById("streak").textContent = `Streak: ${streak}`;
       document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
     };
@@ -83,5 +88,5 @@ function nextQuestion() {
   });
 }
 
-// start eerste vraag
+// 🔹 start quiz
 nextQuestion();
