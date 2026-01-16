@@ -65,18 +65,19 @@ h1, h2 {
 /* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* breed genoeg voor horizontale foto's */
   gap: 10px;
   margin-bottom: 15px;
 }
 
 .grid img {
   width: 100%;
-  height: 120px; /* vaste hoogte voor alle afbeeldingen */
+  height: auto; /* hoogte automatisch, zodat verhouding behouden blijft */
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease, border 0.3s ease;
-  object-fit: cover; /* vult het vakje netjes */
+  object-fit: cover; /* vult het vakje netjes en horizontaal rechthoekig */
+  display: block;
 }
 
 .grid img:hover {
