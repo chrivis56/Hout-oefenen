@@ -83,6 +83,35 @@ function nextQuestion() {
 
   if (streak > highscore) highscore = streak;
 
+  document.getElementById("streak").textContent = `Streak: ${streak}`;
+  document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
+
+  // 🎉 alles goed in deze cyclus
+  if (correctThisCycle === totalWoods) {
+    setTimeout(() => {
+      const verder = confirm(
+        "🎉 Gefeliciteerd!\nJe hebt alle houtsoorten goed geraden.\n\nWil je verder spelen om je highscore te verbeteren?"
+      );
+
+      if (verder) {
+        woodDeck = [];
+        nextQuestion();
+      } else {
+        document.getElementById("feedback").textContent =
+          "👍 Bedankt voor het spelen!";
+        document.getElementById("grid").innerHTML = "";
+      }
+    }, 500);
+  } else {
+    // ➡️ automatisch door naar volgende vraag
+    setTimeout(() => {
+      nextQuestion();
+    }, 1000);
+  }
+}
+
+  if (streak > highscore) highscore = streak;
+
   // 🎉 check of alles goed geraden is
   if (correctThisCycle === totalWoods) {
     setTimeout(() => {
