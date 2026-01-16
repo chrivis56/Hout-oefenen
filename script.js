@@ -1,33 +1,135 @@
+console.log("HOUT QUIZ – STABIELE VERSIE");
+
+// ================= DATA =================
 const woods = [
-  { name: "Beuken", image: "images/beuken/1.jpg" },
-  { name: "Esdoorn", image: "images/esdoorn/1.jpg" },
-  { name: "Essen", image: "images/essen/1.jpg" },
-  { name: "Europees eiken", image: "images/europees-eiken/1.jpg" },
-  { name: "Grenen", image: "images/grenen/1.jpg" },
-  { name: "Iepen", image: "images/iepen/1.jpg" },
-  { name: "Iroko", image: "images/iroko/1.jpg" },
-  { name: "Kersen", image: "images/kersen/1.jpg" },
-  { name: "Mahonie", image: "images/mahonie/1.jpg" },
-  { name: "Noten", image: "images/noten/1.jpg" },
-  { name: "Pokhout", image: "images/pokhout/1.jpg" },
-  { name: "Purperhart", image: "images/purperhart/1.jpg" },
-  { name: "Rood eiken", image: "images/rood-eiken/1.jpg" },
-  { name: "Teak", image: "images/teak/1.jpg" },
-  { name: "Vuren", image: "images/vuren/1.jpg" },
-  { name: "Wengé", image: "images/wenge/1.jpg" },
-  { name: "Zebrano", image: "images/zebrano/1.jpg" }
+  {
+    name: "Beuken",
+    image: "images/beuken/1.jpg",
+    properties: ["Fijnporig", "Hard loofhout", "Licht roze/crème"],
+    uses: ["Meubels", "Stoelen", "Interieurbouw"],
+    price: 2
+  },
+  {
+    name: "Esdoorn",
+    image: "images/esdoorn/1.jpg",
+    properties: ["Zeer hard", "Fijne nerf", "Zeer licht van kleur"],
+    uses: ["Keukens", "Trappen", "Instrumenten"],
+    price: 3
+  },
+  {
+    name: "Essen",
+    image: "images/essen/1.jpg",
+    properties: ["Taai", "Elastisch", "Rechte draad"],
+    uses: ["Sportartikelen", "Meubels", "Trappen"],
+    price: 2
+  },
+  {
+    name: "Europees eiken",
+    image: "images/europees-eiken/1.jpg",
+    properties: ["Zeer sterk", "Grove poriën", "Veel looizuur"],
+    uses: ["Vloeren", "Meubels", "Constructie"],
+    price: 3
+  },
+  {
+    name: "Grenen",
+    image: "images/grenen/1.jpg",
+    properties: ["Zacht", "Veel noesten", "Lichtgewicht"],
+    uses: ["Bouw", "Meubels", "Aftimmering"],
+    price: 1
+  },
+  {
+    name: "Iepen",
+    image: "images/iepen/1.jpg",
+    properties: ["Taai", "Kruisdraad", "Bestand tegen vocht"],
+    uses: ["Meubels", "Scheepsbouw", "Constructie"],
+    price: 3
+  },
+  {
+    name: "Iroko",
+    image: "images/iroko/1.jpg",
+    properties: ["Duurzaam", "Olieachtig", "Goudbruin"],
+    uses: ["Buitenwerk", "Kozijnen", "Terrassen"],
+    price: 3
+  },
+  {
+    name: "Kersen",
+    image: "images/kersen/1.jpg",
+    properties: ["Fijn", "Warm roodbruin", "Verkleurt sterk"],
+    uses: ["Luxe meubels", "Interieur"],
+    price: 3
+  },
+  {
+    name: "Mahonie",
+    image: "images/mahonie/1.jpg",
+    properties: ["Stabiel", "Roodbruin", "Fijne nerf"],
+    uses: ["Meubels", "Scheepsinterieur"],
+    price: 4
+  },
+  {
+    name: "Noten",
+    image: "images/noten/1.jpg",
+    properties: ["Donker", "Decoratief", "Hard"],
+    uses: ["Design meubels", "Fineer"],
+    price: 4
+  },
+  {
+    name: "Pokhout",
+    image: "images/pokhout/1.jpg",
+    properties: ["Zeer hard", "Zelfsmerend", "Zwaar"],
+    uses: ["Lagers", "Technische onderdelen"],
+    price: 4
+  },
+  {
+    name: "Purperhart",
+    image: "images/purperhart/1.jpg",
+    properties: ["Paars", "Hard", "Verkleurt"],
+    uses: ["Accenten", "Design"],
+    price: 4
+  },
+  {
+    name: "Rood eiken",
+    image: "images/rood-eiken/1.jpg",
+    properties: ["Open poriën", "Sterk", "Lichtbruin"],
+    uses: ["Meubels", "Interieur"],
+    price: 2
+  },
+  {
+    name: "Teak",
+    image: "images/teak/1.jpg",
+    properties: ["Zeer duurzaam", "Olieachtig", "Stabiel"],
+    uses: ["Buitenmeubels", "Scheepsbouw"],
+    price: 4
+  },
+  {
+    name: "Vuren",
+    image: "images/vuren/1.jpg",
+    properties: ["Zacht", "Licht", "Rechte draad"],
+    uses: ["Bouw", "Constructie"],
+    price: 1
+  },
+  {
+    name: "Wengé",
+    image: "images/wenge/1.jpg",
+    properties: ["Zeer donker", "Hard", "Grove nerf"],
+    uses: ["Design meubels", "Accenten"],
+    price: 4
+  },
+  {
+    name: "Zebrano",
+    image: "images/zebrano/1.jpg",
+    properties: ["Gestreept", "Hard", "Decoratief"],
+    uses: ["Fineer", "Design"],
+    price: 4
+  }
 ];
 
-// 🏗 quiz state
+// ================= STATE =================
 let streak = 0;
 let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
-let answeredCorrectly = false;
-let correctThisCycle = 0;
-const totalWoods = woods.length;
 
-// 🔹 shuffle functie zonder originele array te slopen
+// ================= HELPERS =================
 function shuffle(array) {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -37,27 +139,29 @@ function shuffle(array) {
   return copy;
 }
 
-// 🔹 getNextWood: 1x per cyclus
 function getNextWood() {
   if (woodDeck.length === 0) {
     woodDeck = shuffle(woods);
-    correctThisCycle = 0; // nieuwe cyclus reset
   }
   return woodDeck.pop();
 }
 
+function priceLabel(level) {
+  return "€".repeat(level) + "–".repeat(4 - level);
+}
+
+// ================= QUIZ =================
 function nextQuestion() {
-  answeredCorrectly = false;
   document.getElementById("feedback").textContent = "";
+  document.getElementById("wood-info").innerHTML = "";
 
   currentWood = getNextWood();
   document.getElementById("wood-name").textContent = currentWood.name;
 
-  // juiste + 11 foute opties
-  let options = [currentWood];
-  const others = woods.filter(w => w !== currentWood);
-  const shuffledOthers = shuffle(others).slice(0, 11);
-  options = shuffle([...options, ...shuffledOthers]);
+  const options = shuffle([
+    currentWood,
+    ...shuffle(woods.filter(w => w !== currentWood)).slice(0, 11)
+  ]);
 
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
@@ -67,43 +171,22 @@ function nextQuestion() {
     img.src = wood.image;
 
     img.onclick = () => {
-      // niet dubbel klikken op dezelfde afbeelding
       if (img.classList.contains("correct") || img.classList.contains("wrong")) return;
 
       if (wood === currentWood) {
         img.classList.add("correct");
         document.getElementById("feedback").textContent = "✔️ Goed!";
-        answeredCorrectly = true;
-
         streak++;
-        correctThisCycle++;
         if (streak > highscore) highscore = streak;
 
         document.getElementById("streak").textContent = `Streak: ${streak}`;
         document.getElementById("highscore").textContent = `Highscore: ${highscore}`;
 
-        // 🎉 alles goed in deze cyclus
-        if (correctThisCycle === totalWoods) {
-          setTimeout(() => {
-            const verder = confirm(
-              "🎉 Gefeliciteerd!\nJe hebt alle houtsoorten goed geraden.\n\nWil je verder spelen om je highscore te verbeteren?"
-            );
-
-            if (verder) {
-              woodDeck = [];
-              nextQuestion();
-            } else {
-              document.getElementById("feedback").textContent =
-                "👍 Bedankt voor het spelen!";
-              document.getElementById("grid").innerHTML = "";
-            }
-          }, 500);
-        } else {
-          // automatisch doorgaan naar volgende vraag
-          setTimeout(() => {
-            nextQuestion();
-          }, 1000); // 1 seconde wachten zodat groen zichtbaar blijft
-        }
+        document.getElementById("wood-info").innerHTML = `
+          <strong>Eigenschappen:</strong> ${currentWood.properties.join(" • ")}<br>
+          <strong>Toepassingen:</strong> ${currentWood.uses.join(", ")}<br>
+          <strong>Prijsklasse:</strong> ${priceLabel(currentWood.price)}
+        `;
       } else {
         img.classList.add("wrong");
         document.getElementById("feedback").textContent = "❌ Fout";
@@ -116,5 +199,5 @@ function nextQuestion() {
   });
 }
 
-// 🔹 start quiz
+// ================= START =================
 nextQuestion();
