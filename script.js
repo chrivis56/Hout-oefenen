@@ -129,6 +129,10 @@ let highscore = 0;
 let woodDeck = [];
 let currentWood = null;
 let wrongAttempts = 0;
+let gameMode = "name"; 
+// "name" = raad hout op naam
+// "uses" = raad hout op toepassingen
+
 
 // ================= HELPERS =================
 function shuffle(array) {
