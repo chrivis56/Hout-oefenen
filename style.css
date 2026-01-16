@@ -62,22 +62,22 @@ h1, h2 {
   font-size: 16px;
 }
 
-/* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
   margin-bottom: 15px;
 }
 
 .grid img {
-  width: 160%;
-  height: 100px; /* iets rechthoekiger dan vierkant */
+  width: 100%;      /* vult de breedte van het vakje */
+  height: auto;     /* hoogte wordt automatisch, behoudt verhouding */
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease, border 0.3s ease;
-  object-fit: cover; /* vult het vak mooi, zonder vervormen */
+  display: block;   /* voorkomt ongewenste spaties onder afbeeldingen */
 }
+
 
 
 .grid img:hover {
