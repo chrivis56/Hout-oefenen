@@ -64,33 +64,32 @@ h1, h2 {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* min 180px breed */
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.grid img {
-  width: 100%;      /* vult de breedte van het vakje */
-  height: auto;     /* hoogte wordt automatisch, behoudt verhouding */
-  border-radius: 10px;
-  cursor: pointer;
+/* afbeelding vult container */
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* snijdt bij waar nodig, houdt aspect ratio intact */
   transition: transform 0.3s ease, border 0.3s ease;
-  display: block;   /* voorkomt ongewenste spaties onder afbeeldingen */
+  display: block;
 }
 
-
-
-.grid img:hover {
+.grid-item img:hover {
   transform: scale(1.05);
 }
 
-.grid img.correct {
+.grid-item img.correct {
   border: 4px solid green;
 }
 
-.grid img.wrong {
+.grid-item img.wrong {
   border: 4px solid red;
 }
+
 
 /* Volgende knop */
 #next-btn {
