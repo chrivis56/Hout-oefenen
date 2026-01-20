@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Houtsoorten Quiz</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winkel Taken</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Houtsoorten Quiz</h1>
 
-    <!-- Score -->
-    <div class="score-container">
-      <h2 id="streak">Streak: 0</h2>
-      <h2 id="highscore">Highscore: 0</h2>
+<header>
+    <img src="images/logo.png" alt="Winkel Logo" id="logo">
+    <h1>Dagelijkse taken</h1>
+    <div id="progress">0/0</div>
+</header>
+
+
+<main>
+  <div id="tasks-wrapper">
+    <div class="task-column">
+        <h2>Openen</h2>
+        <div id="tasks-openen"></div>
     </div>
 
-    <!-- Streak balk -->
-    <div class="streak-bar-container">
-      <div id="streak-bar"></div>
+    <div class="task-column">
+        <h2>Gedurende de dag</h2>
+        <div id="tasks-dag"></div>
     </div>
 
-    <!-- Gamemode buttons -->
-    <div id="modes">
-      <button onclick="setMode('name')">Naam → Foto</button>
-      <button onclick="setMode('uses')">Toepassingen → Foto</button>
+    <div class="task-column">
+        <h2>Sluiten</h2>
+        <div id="tasks-sluiten"></div>
     </div>
+</div>
 
-    <!-- Vraag -->
-    <h1 id="wood-name"></h1>
-    <p id="feedback"></p>
-    <p id="wood-info"></p>
+<div id="notes-section">
+    <h2>Notities van vandaag</h2>
+    <textarea id="daily-notes" placeholder="Typ hier bijzonderheden van vandaag..."></textarea>
+</div>
 
-    <!-- Foto grid -->
-    <div id="grid" class="grid"></div>
+</main>
 
-    <!-- Volgende knop -->
-    <button id="next-btn" onclick="nextQuestion()">Volgende</button>
-  </div>
+<footer>
+    <button id="agenda-btn">📅 Planning</button>
+</footer>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
